@@ -1,10 +1,9 @@
 const path = require("path");
-
 const express = require("express");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 
-// const errorController = require("./controllers/error");
-const { mongoConnect } = require("./util/database");
+const errorController = require("./controllers/error");
 // const sequelize = require("./util/database");
 // const Product = require("./models/product");
 // const User = require("./models/user");
@@ -37,8 +36,18 @@ app.use((req, res, next) => {
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
 
-// app.use(errorController.get404);
+app.use(errorController.get404);
 
-mongoConnect(() => {
-  app.listen(3000);
-});
+mongoose
+  .connect(
+    "mongodb+srv://sathyarjun007:TkC3Mu9iCC4wlMOH@cluster.8tv9n.mongodb.net/shop"
+  )
+  .then(() => {
+    console.log("connected");
+    app.listen(3000, () => {
+      console.log("listioning to port");
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+  });
