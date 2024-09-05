@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema({
+const userSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -25,7 +25,7 @@ const UserSchema = new Schema({
   },
 });
 
-UserSchema.methods.addToCart = function (product) {
+userSchema.methods.addToCart = function (product) {
   const cartProductIndex = this.cart.items.findIndex((cp) => {
     return cp.productId.toString() === product._id.toString();
   });
@@ -48,7 +48,15 @@ UserSchema.methods.addToCart = function (product) {
   return this.save();
 };
 
-module.exports = mongoose.model("User", UserSchema);
+userSchema.methods.deleteItemFromCart = function (productId) {
+  let updatedCart = this.cart.items.filter(
+    (item) => item._id.toString() !== productId.toString()
+  );
+  this.cart.items = updatedCart;
+  return this.save();
+};
+
+module.exports = mongoose.model("User", userSchema);
 // const mongodb = require('mongodb');
 // const getDb = require('../util/database').getDb;
 
