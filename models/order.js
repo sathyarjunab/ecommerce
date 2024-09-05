@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const orders = new Schema({
+const orderSchema = new Schema({
   products: [
     {
       product: { type: Object, required: true },
@@ -16,7 +16,7 @@ const orders = new Schema({
   },
 });
 
-module.exports = orders;
+module.exports = mongoose.model("Order", orderSchema);
 
 // const Sequelize = require('sequelize');
 
