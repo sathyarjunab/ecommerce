@@ -24,8 +24,25 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use((req, res, next) => {
-  User.findById("66d9696cf3bb0903aaf9e4db")
+  User.findById("66d97430acf74d84a7db97d9")
     .then((user) => {
+      if (!user) {
+        user = new User({
+          name: "dddd",
+          email: "dnin@Nini",
+          cart: {
+            item: [],
+          },
+        });
+        return user.save().then((result) => {
+          return result;
+        });
+      } else {
+        return user;
+      }
+    })
+    .then((user) => {
+      console.log(user);
       req.user = user;
       next();
     })
@@ -44,7 +61,7 @@ mongoose
   .then(() => {
     console.log("connected");
     app.listen(3000, () => {
-      console.log("listioning to port");
+      console.log("listening to port");
     });
   })
   .catch((err) => {

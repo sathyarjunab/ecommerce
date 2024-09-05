@@ -5,9 +5,9 @@
     <body>
         <%- include('../includes/navigation.ejs') %>
         <main>
-            <% if (products.length > 0) { %>
+            <% if (productsId.length > 0) { %>
                 <ul class="cart__item-list">
-                    <% products.forEach(p => { %>
+                    <% productsId.forEach(p => { %>
                         <li class="cart__item">
                             <h1><%= p.title %></h1>
                             <h2>Quantity: <%= p.quantity %></h2>
